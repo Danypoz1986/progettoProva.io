@@ -1,22 +1,23 @@
 // WeatherInfo.js
 import React from 'react';
 
-function WeatherInfo({ weatherData }) {
-  if (!weatherData) {
-    return null; // Do not render anything if there's no weather data yet
+const WeatherInfo = ({ data }) => {
+  if (!data) {
+    return null; // Do not render anything if there's no data
   }
 
-  if (!weatherData.main) {
-    return <p>No weather data available.</p>; // Show this message only if weather data is fetched but incomplete
+  // Check if the data has the expected structure
+  if (data.cod === 200) {
+    return (
+      <div id="weather-info">
+        <h2>Weather in {data.name}</h2>
+        <p>Temperature: {data.main.temp} °C</p>
+        <p>Weather: {data.weather[0].description}</p>
+      </div>
+    );
+  } else {
+    return <p>Could not fetch weather data. Please try again.</p>;
   }
-
-  return (
-    <div>
-      <h2>Weather in {weatherData.name}</h2>
-      <p>Temperature: {weatherData.main.temp} °C</p>
-      <p>Weather: {weatherData.weather[0].description}</p>
-    </div>
-  );
-}
+};
 
 export default WeatherInfo;
